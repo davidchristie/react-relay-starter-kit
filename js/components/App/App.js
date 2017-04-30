@@ -1,24 +1,20 @@
-import React from 'react';
-import Relay from 'react-relay';
-import {Row, Col, Button, Jumbotron} from 'react-bootstrap';
-import {hashHistory} from 'react-router';
-import Header from './Header';
-import Hero from './Hero';
-import Description from './Description';
-import Footer from './Footer';
+import React from 'react'
+import Relay from 'react-relay'
+import { hashHistory } from 'react-router'
+
+import Description from './Description'
+import Footer from './Footer'
+import Header from './Header'
+import Hero from './Hero'
 
 class App extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
-  componentWillMount() {
-    if (localStorage.scapholdAuthToken) {
-      hashHistory.push('/home');
+  componentWillMount () {
+    if (window.localStorage.scapholdAuthToken) {
+      hashHistory.push('/home')
     }
   }
 
-  render() {
+  render () {
     return (
       <div>
         <Header />
@@ -26,10 +22,10 @@ class App extends React.Component {
         <Description />
         <Footer />
       </div>
-    );
+    )
   }
 }
 
 export default Relay.createContainer(App, {
   fragments: {}
-});
+})

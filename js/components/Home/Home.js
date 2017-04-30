@@ -1,14 +1,14 @@
-import React from 'react';
-import Relay from 'react-relay';
-import {Button} from 'react-bootstrap';
-import {hashHistory} from 'react-router';
-import Header from './Header';
-import Body from './Body';
+import React from 'react'
+import Relay from 'react-relay'
+import { hashHistory } from 'react-router'
+
+import Body from './Body'
+import Header from './Header'
 
 class Home extends React.Component {
-  render() {
-    if (!localStorage.scapholdAuthToken) {
-      hashHistory.push('/');
+  render () {
+    if (!window.localStorage.scapholdAuthToken) {
+      hashHistory.push('/')
     }
 
     return (
@@ -16,11 +16,11 @@ class Home extends React.Component {
         <Header />
         <Body />
       </div>
-    );
+    )
   }
 }
 
 export default Relay.createContainer(Home, {
   initialVariables: {},
   fragments: {}
-});
+})

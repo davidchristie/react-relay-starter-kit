@@ -1,79 +1,89 @@
-import React from 'react';
-import Relay from 'react-relay';
-import { hashHistory } from 'react-router';
-import { Button, Modal, OverlayTrigger, NavItem, Form, FormControl, FormGroup, Row, Col, ControlLabel, Alert } from 'react-bootstrap';
-import * as Auth from './../../auth/Auth';
-import config from './../../../config';
+import React from 'react'
+import {
+  Alert,
+  Button,
+  Col,
+  ControlLabel,
+  Form,
+  FormControl,
+  FormGroup,
+  Modal,
+  NavItem,
+  Row
+} from 'react-bootstrap'
+import Relay from 'react-relay'
+import { hashHistory } from 'react-router'
+
+import * as Auth from '../../auth/Auth'
 
 class Register extends React.Component {
-
-  constructor(props) {
-    super(props);
+  constructor (props) {
+    super(props)
 
     this.state = {
+      errors: null,
       showModal: false,
       registerEmail: '',
-      registerPassword: '',
-      errors: null
-    };
+      registerPassword: ''
+    }
 
-    this.close = this.close.bind(this);
-    this.open = this.open.bind(this);
-    this._handleRegisterEmailChange = this._handleRegisterEmailChange.bind(this);
-    this._handleRegisterPasswordChange = this._handleRegisterPasswordChange.bind(this);
-    this.validateInput = this.validateInput.bind(this);
-    this.registerUser = this.registerUser.bind(this);
+    this._handleRegisterEmailChange = this._handleRegisterEmailChange.bind(this)
+    this._handleRegisterPasswordChange = this._handleRegisterPasswordChange.bind(this)
+    this.close = this.close.bind(this)
+    this.open = this.open.bind(this)
+    this.registerUser = this.registerUser.bind(this)
+    this.validateInput = this.validateInput.bind(this)
   }
 
-  close() {
-    this.setState({ showModal: false });
-  }
-
-  open() {
-    this.setState({ showModal: true });
-  }
-
-  _handleRegisterEmailChange(e) {
+  _handleRegisterEmailChange (event) {
     this.setState({
-      registerEmail: e.target.value
-    });
-  }
-
-  _handleRegisterPasswordChange(e) {
-    this.setState({
-      registerPassword: e.target.value
+      registerEmail: event.target.value
     })
   }
 
-  validateInput() {
-    return (
-      this.state.registerEmail && this.state.registerEmail.length &&
-      this.state.registerPassword && this.state.registerPassword.length
-    );
+  _handleRegisterPasswordChange (event) {
+    this.setState({
+      registerPassword: event.target.value
+    })
   }
 
-  registerUser() {
+  close () {
+    this.setState({ showModal: false })
+  }
+
+  open () {
+    this.setState({ showModal: true })
+  }
+
+  registerUser () {
     if (this.validateInput()) {
       Auth.register(this.state.registerEmail, this.state.registerPassword).then(data => {
         if (!data.errors) {
-          localStorage.setItem('scapholdAuthToken', data.loginUser.token);
-          localStorage.setItem('user', JSON.stringify(data.loginUser.user));
-          this.setState({ errors: [] });
-          hashHistory.push('/home');
+          window.localStorage.setItem('scapholdAuthToken', data.loginUser.token)
+          window.localStorage.setItem('user', JSON.stringify(data.loginUser.user))
+          this.setState({ errors: [] })
+          hashHistory.push('/home')
         } else {
-          this.setState({ errors: data.errors });
+          this.setState({ errors: data.errors })
         }
       }).catch(errors => {
-        this.setState({ errors });
-      });
+        this.setState({ errors })
+      })
     } else {
       this.setState({
         errors: 'Username or password was not filled out. Please fill out the required fields.'
-      });
+      })
     }
   }
 
-  render() {
+  validateInput () {
+    return (
+      this.state.registerEmail && this.state.registerEmail.length &&
+      this.state.registerPassword && this.state.registerPassword.length
+    )
+  }
+
+  render () {
     return (
       <NavItem onClick={this.open}>
         Register
@@ -85,8 +95,9 @@ class Register extends React.Component {
           <Modal.Body>
             <div style={styles.errors}>
               {
-                this.state.errors ?
-                  <Alert bsStyle="danger">{this.state.errors}</Alert> : ''
+                this.state.errors
+                  ? <Alert bsStyle='danger'>{this.state.errors}</Alert>
+                  : ''
               }
             </div>
             <Form horizontal>
@@ -96,7 +107,7 @@ class Register extends React.Component {
                     Email
                   </Col>
                   <Col sm={8}>
-                    <FormControl type="email" placeholder="Email" onChange={this._handleRegisterEmailChange} />
+                    <FormControl type='email' placeholder='Email' onChange={this._handleRegisterEmailChange} />
                   </Col>
                 </FormGroup>
 
@@ -105,19 +116,19 @@ class Register extends React.Component {
                     Password
                   </Col>
                   <Col sm={8}>
-                    <FormControl type="password" placeholder="Password" onChange={this._handleRegisterPasswordChange} />
+                    <FormControl type='password' placeholder='Password' onChange={this._handleRegisterPasswordChange} />
                   </Col>
                 </FormGroup>
               </Row>
             </Form>
           </Modal.Body>
           <Modal.Footer>
-            <Button bsStyle="primary" type="submit" onClick={this.registerUser}>Register</Button>
+            <Button bsStyle='primary' type='submit' onClick={this.registerUser}>Register</Button>
             <Button onClick={this.close}>Close</Button>
           </Modal.Footer>
         </Modal>
       </NavItem>
-    );
+    )
   }
 }
 
@@ -126,8 +137,8 @@ const styles = {
     textAlign: 'left',
     color: 'red'
   }
-};
+}
 
 export default Relay.createContainer(Register, {
   fragments: {}
-});
+})

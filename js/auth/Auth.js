@@ -1,41 +1,34 @@
-import Relay from 'react-relay';
-import RegisterMutation from './../mutations/RegisterMutation';
-import LoginMutation from './../mutations/LoginMutation';
+import Relay from 'react-relay'
 
-export function register(username, password) {
+import LoginMutation from '../mutations/LoginMutation'
+import RegisterMutation from '../mutations/RegisterMutation'
+
+export function register (username, password) {
   return new Promise((resolve, reject) => {
     Relay.Store.commitUpdate(new RegisterMutation({
       input: {
-        username: username,
-        password: password
+        password,
+        username
       },
       user: null
     }), {
-      onSuccess: (data) => {
-        resolve(login(username, password));
-      },
-      onFailure: (transaction) => {
-        reject(transaction.getError().message);
-      }
-    });
+      onFailure: transaction => reject(transaction.getError().message),
+      onSuccess: data => resolve(login(username, password))
+    })
   })
 }
 
-export function login(username, password) {
+export function login (username, password) {
   return new Promise((resolve, reject) => {
     Relay.Store.commitUpdate(new LoginMutation({
       input: {
-        username: username,
-        password: password
+        password,
+        username
       },
       user: null
     }), {
-      onSuccess: (data) => {
-        resolve(data);
-      },
-      onFailure: (transaction) => {
-        reject(transaction.getError().message);
-      }
-    });
+      onFailure: transaction => reject(transaction.getError().message),
+      onSuccess: data => resolve(data)
+    })
   })
 }

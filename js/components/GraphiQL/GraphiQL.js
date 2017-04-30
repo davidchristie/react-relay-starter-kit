@@ -1,30 +1,30 @@
-import React from 'react';
-import Relay from 'react-relay';
-import GraphiQL from 'graphiql';
-import fetch from 'isomorphic-fetch';
-import config from './../../../config';
-import Header from './../App/Header';
-import LoggedInHeader from './../Home/Header';
+import GraphiQL from 'graphiql'
+import fetch from 'isomorphic-fetch'
+import React from 'react'
+import Relay from 'react-relay'
 
-function graphQLFetcher(graphQLParams) {
+import config from './../../../config'
+import Header from './../App/Header'
+import LoggedInHeader from './../Home/Header'
+
+function graphQLFetcher (graphQLParams) {
   return fetch(config.scapholdUrl, {
-    method: 'post',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${localStorage.scapholdAuthToken}`
-    },
     body: JSON.stringify(graphQLParams),
-  }).then(response => response.json());
+    headers: {
+      'Authorization': `Bearer ${window.localStorage.scapholdAuthToken}`,
+      'Content-Type': 'application/json'
+    },
+    method: 'post'
+  }).then(response => response.json())
 }
 
 class GraphiQLModule extends React.Component {
-  render() {
-    let header;
-    if (!localStorage.scapholdAuthToken) {
-      header = <Header />;
-    }
-    else {
-      header = <LoggedInHeader />;
+  render () {
+    let header
+    if (!window.localStorage.scapholdAuthToken) {
+      header = <Header />
+    } else {
+      header = <LoggedInHeader />
     }
 
     return (
@@ -39,4 +39,4 @@ class GraphiQLModule extends React.Component {
 export default Relay.createContainer(GraphiQLModule, {
   initialVariables: {},
   fragments: {}
-});
+})

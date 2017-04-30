@@ -1,28 +1,26 @@
-import React from 'react';
-import Relay from 'react-relay';
-import { hashHistory } from 'react-router';
-import { NavItem } from 'react-bootstrap';
+import React from 'react'
+import { NavItem } from 'react-bootstrap'
+import Relay from 'react-relay'
+import { hashHistory } from 'react-router'
 
 class Logout extends React.Component {
-
-  constructor(props) {
-    super(props);
-    this.logoutUser = this.logoutUser.bind(this);
+  constructor (props) {
+    super(props)
+    this.logoutUser = this.logoutUser.bind(this)
   }
 
-  logoutUser() {
-    localStorage.clear();
-    hashHistory.push('/');
+  logoutUser () {
+    window.localStorage.clear()
+    hashHistory.push('/')
   }
 
-  render() {
+  render () {
     return (
       <NavItem onClick={this.logoutUser}>Logout</NavItem>
-    );
+    )
   }
 }
 
 export default Relay.createContainer(Logout, {
-  fragments: {
-  }
-});
+  fragments: {}
+})

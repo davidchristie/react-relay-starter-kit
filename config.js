@@ -5,7 +5,7 @@
  */
 
 const config = {
-	scapholdUrl: 'https://us-west-2.api.scaphold.io/graphql/react-relay-example',
+  scapholdUrl: 'https://us-west-2.api.scaphold.io/graphql/react-relay-example'
 }
 
-module.exports = config;
+module.exports = config

@@ -1,51 +1,51 @@
-import React from 'react';
-import Relay from 'react-relay';
-import {hashHistory} from 'react-router';
-import {Navbar, Nav, NavItem, NavDropdown, MenuItem} from 'react-bootstrap';
-import Login from './Login';
-import Register from './Register';
+import React from 'react'
+import { Nav, Navbar, NavItem } from 'react-bootstrap'
+import Relay from 'react-relay'
+import { hashHistory } from 'react-router'
+
+import Login from './Login'
+import Register from './Register'
 
 class Header extends React.Component {
-  constructor(props) {
-    super(props);
-    this.goToGraphiQL = this.goToGraphiQL.bind(this);
-    this.goHome = this.goHome.bind(this);
+  constructor (props) {
+    super(props)
+    this.goHome = this.goHome.bind(this)
+    this.goToGraphiQL = this.goToGraphiQL.bind(this)
   }
 
-  goToGraphiQL() {
-    hashHistory.push('/graphiql');
+  goToGraphiQL () {
+    hashHistory.push('/graphiql')
   }
 
-  goHome() {
-    hashHistory.push('/');
+  goHome () {
+    hashHistory.push('/')
   }
 
-  render() {
+  render () {
     return (
       <Navbar style={styles.navbar}>
         <Navbar.Header>
           <Navbar.Brand>
-            <a href="/">Scaphold</a>
+            <a href='/'>Scaphold</a>
           </Navbar.Brand>
         </Navbar.Header>
-        <Nav pullRight={true}>
+        <Nav pullRight>
           <NavItem onClick={this.goHome}>Home</NavItem>
           <NavItem onClick={this.goToGraphiQL}>GraphiQL</NavItem>
           <Login />
           <Register />
         </Nav>
       </Navbar>
-    );
+    )
   }
 }
 
 export default Relay.createContainer(Header, {
-  fragments: {
-  }
-});
+  fragments: {}
+})
 
 const styles = {
   navbar: {
     marginBottom: 0
   }
-};
+}

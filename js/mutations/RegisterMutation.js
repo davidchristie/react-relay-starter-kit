@@ -1,39 +1,7 @@
-import Relay from 'react-relay';
+import Relay from 'react-relay'
 
 export default class RegisterMutation extends Relay.Mutation {
-  static initialVariables = {
-    input: null
-  };
-
-  getMutation() {
-    return Relay.QL`
-      mutation {
-        createUser
-      }
-    `;
-  }
-
-  getVariables() {
-    return {
-      username: this.props.input.username,
-      password: this.props.input.password
-    };
-  }
-
-  getFatQuery() {
-    return Relay.QL`
-      fragment on CreateUserPayload {
-        changedUser {
-          id
-          username
-          createdAt
-          modifiedAt
-        }
-      }
-    `
-  }
-
-  getConfigs() {
+  getConfigs () {
     return [{
       type: 'REQUIRED_CHILDREN',
       children: [Relay.QL `
@@ -49,16 +17,8 @@ export default class RegisterMutation extends Relay.Mutation {
     }]
   }
 
-  getOptimisticResponse() {
-    return {
-      changedUser: {
-        username: this.props.createUser
-      }
-    }
-  }
-
-  static fragments = {
-    user: () => Relay.QL`
+  getFatQuery () {
+    return Relay.QL`
       fragment on CreateUserPayload {
         changedUser {
           id
@@ -67,6 +27,46 @@ export default class RegisterMutation extends Relay.Mutation {
           modifiedAt
         }
       }
-    `,
-  };
+    `
+  }
+
+  getMutation () {
+    return Relay.QL`
+      mutation {
+        createUser
+      }
+    `
+  }
+
+  getOptimisticResponse () {
+    return {
+      changedUser: {
+        username: this.props.createUser
+      }
+    }
+  }
+
+  getVariables () {
+    return {
+      username: this.props.input.username,
+      password: this.props.input.password
+    }
+  }
+}
+
+RegisterMutation.fragments = {
+  user: () => Relay.QL`
+    fragment on CreateUserPayload {
+      changedUser {
+        id
+        username
+        createdAt
+        modifiedAt
+      }
+    }
+  `
+}
+
+RegisterMutation.initialVariables = {
+  input: null
 }
